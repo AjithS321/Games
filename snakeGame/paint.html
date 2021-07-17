@@ -1,0 +1,80 @@
+
+
+<canvas id="paint" width="500" height="600">
+</canvas>
+<script>
+rect=[];
+rect.startX=0;
+rect.startY=0;
+rect.w=0;
+rect.h=0;
+rect.color="";
+
+window.onload=function(){
+	canv=document.getElementById("paint");
+	ctx=canv.getContext("2d");
+
+	ctx.fillStyle="black";
+	ctx.strokeStyle="red";
+	ctx.fillRect(0,0,500,500);
+
+	ctx.fillStyle="red";
+	ctx.strokeStyle="red";
+	ctx.fillRect(0,500,500,600);
+
+	//for clear button
+	ctx.fillStyle="white";
+	ctx.fillRect(400,550,50,20);
+	
+	
+	ctx.fillStyle="black";
+	ctx.font="bold 15px Arial";
+	ctx.fillText("clear",408,565)
+	
+	//for drawing rectangles
+	canv.addEventListener('mousedown',mouseDown,false);
+	canv.addEventListener('mouseup',mouseUp,false);
+	
+}
+
+function mouseDown(e){
+x=e.pageX-this.offsetLeft;
+y=e.pageY-this.offsetTop;
+console.log(e.pageX,e.pageY);
+rect.startX=x;
+rect.startY=y;
+if(e.pageX>400&&e.pageX<450&&e.pageY>557&&e.pageY<576){
+canv=document.getElementById("paint");
+	ctx=canv.getContext("2d");
+	ctx.clearRect(0,0,500,500);
+	ctx.fillStyle="black";
+	ctx.strokeStyle="red";
+	ctx.fillRect(0,0,500,500);
+}
+}
+
+//for generating random color
+function getRandomcolor(){
+var length=6;
+var chars='0123456789ABCDEF';
+var hex='#';
+while(length--){
+hex+=chars[(Math.random()*10)|0];
+}
+return hex;
+}
+
+function mouseUp(e){
+x=(e.pageX-this.offsetLeft);
+y=(e.pageY-this.offsetTop);
+rect.w=x-rect.startX;
+rect.h=y-rect.startY;
+rect.color=getRandomcolor();
+
+//draw rectangles
+ctx.fillStyle=rect.color;
+ctx.fillRect(rect.startX,rect.startY,rect.w,rect.h);
+
+}
+
+</script>
